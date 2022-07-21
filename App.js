@@ -5,6 +5,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 //import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+import LandingScreen from './screens/LandingScreen';
+import ModeSelectScreen from './screens/ModeSelectScreen';
+import ExploreScreen from './screens/exploreScreens/ExploreScreen';
+import NavigationScreen from './screens/navigateScreens/NavigationScreen';
+import SelectDestinationScreen from './screens/navigateScreens/SelectDestinationScreen';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -61,15 +69,35 @@ export default function App() {
   if (!appIsReady) {
     return null;
   }
-  return (
-    <NavigationContainer>{
-      <View
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-      onLayout={onLayoutRootView}>
-      <Text style={{fontFamily:"SourceSansPro-Black"}}>SplashScreen Demo! 👋</Text>
-      <Entypo name="rocket" size={30} />
-    </View>
-      }</NavigationContainer>
 
+  const Stack = createNativeStackNavigator();
+
+  function HomeScreen() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+      </View>
+    );
+  }
+  
+  function DetailsScreen() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+      </View>
+    );
+  }
+
+  return (
+    <NavigationContainer onLayout={onLayoutRootView}>
+    
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={LandingScreen} />
+        <Stack.Screen name="ModeSelectScreen" component={ModeSelectScreen} />
+        <Stack.Screen name="ExploreScreen" component={ExploreScreen} />
+        <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
+        <Stack.Screen name="SelectDestinationScreen" component={SelectDestinationScreen} />
+      </Stack.Navigator>
+      </NavigationContainer>
   );
 }
