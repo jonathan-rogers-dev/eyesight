@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "eyesight",
-    "slug": "eyesight",
+    "name": "Eyesight",
+    "slug": "Eyesight",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
