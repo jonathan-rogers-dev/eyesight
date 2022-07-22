@@ -63,6 +63,7 @@ export default function App() {
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
       await SplashScreen.hideAsync();
+      console.log('SplashScreen.hideAsync()');
     }
   }, [appIsReady]);
 
@@ -72,32 +73,17 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
 
-  function HomeScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-      </View>
-    );
-  }
-  
-  function DetailsScreen() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-      </View>
-    );
-  }
-
   return (
-    <NavigationContainer onLayout={onLayoutRootView}>
-    
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={LandingScreen} />
-        <Stack.Screen name="ModeSelectScreen" component={ModeSelectScreen} />
-        <Stack.Screen name="ExploreScreen" component={ExploreScreen} />
-        <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
-        <Stack.Screen name="SelectDestinationScreen" component={SelectDestinationScreen} />
-      </Stack.Navigator>
+    <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={LandingScreen} />
+          <Stack.Screen name="ModeSelectScreen" component={ModeSelectScreen} />
+          <Stack.Screen name="SelectDestinationScreen" component={SelectDestinationScreen} />
+          <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
+          <Stack.Screen name="ExploreScreen" component={ExploreScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
+    </View>
   );
 }

@@ -1,3 +1,6 @@
+// New Style
+
+
 export const GlobalStyles = {
     colors: {
       lightModeBackground: '#FFFFFF',
