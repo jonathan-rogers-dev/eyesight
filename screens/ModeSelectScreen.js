@@ -15,7 +15,7 @@ function ModeSelectScreen({ navigation }) {
       </View>
       <View>
         <Pressable style={ ( {pressed} ) => [{marginBottom: 30}, pressed ? styles.buttonPressed : null]}
-        onPress={() => navigation.navigate("NavigationScreen")}>
+        onPress={() => navigation.push("NavigationScreen")}>
           <View style={styles.option}>
             <View
               style={{
