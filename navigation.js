@@ -66,10 +66,22 @@ export function ScreenStack() {
     return null;
   }
 
+  const screenOptions = {
+    headerTintColor: "white",
+    headerBackTitleVisible: false,
+    headerTitle: "",
+    headerShadowVisible: false,
+    headerTransparent: true,
+    headerTintColor: "black",
+  }
+  
   return (
     <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator 
+        initialRouteName="Home"
+        screenOptions={screenOptions}
+        >
           <Stack.Screen name="Home" component={LandingScreen} options={{headerTransparent:true, headerTitle:""}} />
           <Stack.Screen name="ModeSelectScreen" component={ModeSelectScreen} />
           <Stack.Screen name="SelectDestinationScreen" component={SelectDestinationScreen} />
