@@ -8,7 +8,7 @@ function LandingScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={[styles.subContainer, {justifyContent:"flex-end" }]}>
-        <Image style={{resizeMode: "center", height: 230
+        <Image style={{resizeMode: "cover", height: 250, width: 250, borderRadius: 40
           }} source={require("../assets/landingPageImage.png")} />
       </View>
 
@@ -67,5 +67,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     marginBottom: 20,
+    
   },
 });
