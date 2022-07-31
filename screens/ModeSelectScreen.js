@@ -39,9 +39,9 @@ function ModeSelectScreen({ navigation }) {
                 playback.
               </Text>
             </View>
-            <View style={{position: 'absolute', }}>
+            <View style={{position: 'absolute' }}>
               <Image
-                style={{ resizeMode: "contain", height: 160, width: 80,  }}
+                style={{ resizeMode: "contain", height: 100, width: 95,  }}
                 source={require("../assets/LocationIcon.png")}
               />
             </View>
@@ -71,9 +71,9 @@ function ModeSelectScreen({ navigation }) {
                 Use the camera on your phone to explore your surroundings in real time.
               </Text>
             </View>
-            <View style={{position: 'absolute', }}>
+            <View style={{position: 'absolute' }}>
               <Image
-                style={{ resizeMode: "contain", height: 200, width: 180, }}
+                style={{ resizeMode: "contain", height: 122, width: 120, }}
                 source={require("../assets/Paper_Plane.png")}
               />
             </View>
