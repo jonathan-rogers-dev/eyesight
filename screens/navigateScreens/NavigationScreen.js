@@ -28,7 +28,11 @@ function NavigationScreen({ navigation }) {
       <View style={{height: "46%", width: "80%", borderRadius: 20, overflow: 'hidden', marginBottom: 20 }}>
       <Camera style={{height: "100%", width: "100%", }} type={CameraType.back}/>
       </View>
-      <View style={styles.navigationInfo}>
+
+      <View style={styles.navigationInfoContainer}>
+        <Text style={styles.navigationInfoText}>2.1 mi</Text>
+        <Text style={styles.navigationInfoText}>10 min</Text>
+        <Text style={styles.navigationInfoText}>10:24</Text>
       </View>
     </SafeAreaView>
   );
@@ -53,10 +57,20 @@ const styles = StyleSheet.create({
     fontFamily: 'SourceSansPro-SemiBold', 
     fontSize: 25
   },
-  navigationInfo: {
+  navigationInfoContainer: {
     backgroundColor: GlobalStyles.colors.lightModeMainBlue,
     width: "80%",
     height: "8%",
-    borderRadius: 15
+    borderRadius: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }, 
+  navigationInfoText: {
+    color: GlobalStyles.colors.lightModeWhiteText, 
+    fontFamily: 'SourceSansPro-SemiBold', 
+    fontSize: 25,
+    marginHorizontal: 20
   }
+
 });
