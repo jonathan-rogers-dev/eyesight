@@ -85,7 +85,7 @@ export function ScreenStack() {
           <Stack.Screen name="Home" component={LandingScreen} options={{headerTransparent:true, headerTitle:""}} />
           <Stack.Screen name="ModeSelectScreen" component={ModeSelectScreen} />
           <Stack.Screen name="SelectDestinationScreen" component={SelectDestinationScreen} />
-          <Stack.Screen name="NavigationScreen" component={NavigationScreen} />
+          <Stack.Screen name="NavigationScreen" component={NavigationScreen} options={{headerBackVisible: false}}/>
           <Stack.Screen name="ExploreScreen" component={ExploreScreen} options={{headerBackVisible: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
