@@ -1,11 +1,49 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Pressable } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Pressable} from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { GlobalStyles } from "../../constants/styles";
+import { Accelerometer, Gyroscope} from 'expo-sensors';
+
 
 function ExploreScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.back);
+
+  const [updatedAccelerometerData, setUpdatedAccelerometerData] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
+  const [updatedGyroscopeData, setUpdatedGyroscopeData] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
+
+  Accelerometer.setUpdateInterval(1000);
+  Gyroscope.setUpdateInterval(1000);
+
+  useEffect(() => {
+    Accelerometer.addListener(accelerometerData => {
+      setUpdatedAccelerometerData(accelerometerData);
+    })
+  }, []);
+
+  useEffect(() => {
+    Gyroscope.addListener(gyroscopeData => {
+      setUpdatedGyroscopeData(gyroscopeData);
+    })
+  }, []);
+
+
+  //console.log(updatedAccelerometerData);
+  if (updatedAccelerometerData.x > -0.5 && updatedAccelerometerData.x < 0.5 && updatedAccelerometerData.y > -0.3 && updatedAccelerometerData.y < 1.1 && updatedAccelerometerData.z > -0.5 && updatedAccelerometerData.z < 1) {
+    if (updatedGyroscopeData.x > -0.1 && updatedGyroscopeData.x < 0.1 && updatedGyroscopeData.y > -0.5 && updatedGyroscopeData.y < 0.5 && updatedGyroscopeData.z > -0.1 && updatedGyroscopeData.z < 0.1) {
+      console.log("Accelerometer and Gyroscope are stable", updatedAccelerometerData, updatedGyroscopeData);
+    }
+  }
+  const { x, y, z } = updatedAccelerometerData;
+
 
   useEffect(() => {
     (async () => {
