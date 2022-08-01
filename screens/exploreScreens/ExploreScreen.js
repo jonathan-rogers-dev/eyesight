@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Pressable} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Vib} from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import { GlobalStyles } from "../../constants/styles";
 import { Accelerometer, Gyroscope} from 'expo-sensors';
-
+import * as Haptics from 'expo-haptics';
 
 function ExploreScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -39,6 +39,7 @@ function ExploreScreen({navigation}) {
   //console.log(updatedAccelerometerData);
   if (updatedAccelerometerData.x > -0.5 && updatedAccelerometerData.x < 0.5 && updatedAccelerometerData.y > -0.3 && updatedAccelerometerData.y < 1.1 && updatedAccelerometerData.z > -0.5 && updatedAccelerometerData.z < 1) {
     if (updatedGyroscopeData.x > -0.1 && updatedGyroscopeData.x < 0.1 && updatedGyroscopeData.y > -0.5 && updatedGyroscopeData.y < 0.5 && updatedGyroscopeData.z > -0.1 && updatedGyroscopeData.z < 0.1) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
       console.log("Accelerometer and Gyroscope are stable", updatedAccelerometerData, updatedGyroscopeData);
     }
   }
