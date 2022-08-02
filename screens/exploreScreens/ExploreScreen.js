@@ -5,6 +5,8 @@ import { GlobalStyles } from "../../constants/styles";
 import { Accelerometer, Gyroscope} from 'expo-sensors';
 import * as Haptics from 'expo-haptics';
 
+let lastRequestSecond = -3;
+
 function ExploreScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.back);
@@ -19,6 +21,9 @@ function ExploreScreen({navigation}) {
     y: 0,
     z: 0,
   });
+
+  let currentSecond = new Date().getSeconds();
+  const allowedResponseInterval = 3;
 
   Accelerometer.setUpdateInterval(1000);
   Gyroscope.setUpdateInterval(1000);
@@ -39,8 +44,13 @@ function ExploreScreen({navigation}) {
   //console.log(updatedAccelerometerData);
   if (updatedAccelerometerData.x > -0.5 && updatedAccelerometerData.x < 0.5 && updatedAccelerometerData.y > -0.3 && updatedAccelerometerData.y < 1.1 && updatedAccelerometerData.z > -0.5 && updatedAccelerometerData.z < 1) {
     if (updatedGyroscopeData.x > -0.1 && updatedGyroscopeData.x < 0.1 && updatedGyroscopeData.y > -0.5 && updatedGyroscopeData.y < 0.5 && updatedGyroscopeData.z > -0.1 && updatedGyroscopeData.z < 0.1) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-      console.log("Accelerometer and Gyroscope are stable", updatedAccelerometerData, updatedGyroscopeData);
+      if (Math.abs(currentSecond - lastRequestSecond) > allowedResponseInterval) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+        console.log(currentSecond, lastRequestSecond)
+        lastRequestSecond = currentSecond;
+        
+        console.log("Accelerometer and Gyroscope are stable", updatedAccelerometerData, updatedGyroscopeData);
+      }
     }
   }
   const { x, y, z } = updatedAccelerometerData;
