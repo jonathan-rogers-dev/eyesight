@@ -25,6 +25,7 @@ function ExploreScreen({ navigation }) {
   const [subscriptionGyro, setSubscriptionGyro] = useState(null);
   const [typeCamera, setTypeCamera] = useState(CameraType.back);
   const [location, setLocation] = useState(null);
+  const [locationOld, setLocationOld] = useState(location);
   const [count, setCount] = useState(0);
   const [sound, setSound] = useState();
   const [updatedAccelerometerData, setUpdatedAccelerometerData] = useState({
@@ -98,6 +99,8 @@ function ExploreScreen({ navigation }) {
         return;
       }
 
+      let oldLocation = await Location.getLastKnownPositionAsync({});
+      setLocationOld(oldLocation);
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
     })();
@@ -115,6 +118,7 @@ function ExploreScreen({ navigation }) {
       setCount((count) => count + 1);
       callLocationAPI();
       console.log("Count: " + count);
+      console.log("Location: " + location);
     }, 15000);
     return function cleanup() {
       clearInterval(countTimer);
@@ -188,45 +192,58 @@ function ExploreScreen({ navigation }) {
 
   async function playAudio(url) {
 
-    var audioURI = await FileSystem.downloadAsync(url, FileSystem.documentDirectory + 'audio.wav');
+    try {
+      var audioURI = await FileSystem.downloadAsync(url, FileSystem.documentDirectory + 'audio.wav');
+      await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+
+      console.log(audioURI);
+      const sound = new Audio.Sound();
+      try {
+        const { sound: playbackObject } = await Audio.Sound.createAsync(
+          { uri: url },
+          { shouldPlay: true }
+        );
+        // await sound.playAsync();
+        // Your sound is playing!
+        console.log("Playing sound");
+  
+        // Don't forget to unload the sound from memory
+        // when you are done using the Sound object
+        await sound.unloadAsync();
+  
+        setLocationOld(location);
+      } catch (error) {
+        console.log(error);
+      }
+  
+    } catch (error) {
+      console.log("No URL");      
+    }
+
 
     /*
     while (audioURI == null) {
       audioURI = await FileSystem.downloadAsync(url, FileSystem.documentDirectory + 'audio.wav');
     }
     */
-    await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
-
-    console.log(audioURI);
-    const sound = new Audio.Sound();
-    try {
-      const { sound: playbackObject } = await Audio.Sound.createAsync(
-        { uri: url },
-        { shouldPlay: true }
-      );
-      // await sound.playAsync();
-      // Your sound is playing!
-      console.log("Playing sound");
-
-      // Don't forget to unload the sound from memory
-      // when you are done using the Sound object
-      await sound.unloadAsync();
-    } catch (error) {
-      console.log(error);
-    }
 
   }
 
   async function callLocationAPI() {
+
+    const oldLocation = await Location.getLastKnownPositionAsync({});
+    console.log(oldLocation.coords.latitude, oldLocation.coords.longitude);
+    const currentLocation = await Location.getCurrentPositionAsync({});
+    console.log(currentLocation.coords.latitude, currentLocation.coords.longitude);
     
     axios.get('https://eyesight-function.azurewebsites.net/api/eyesight-location',
       {
         params: {
           code: EYESIGHT_LOCATION_FUNCTION_KEY,
-          latNew: "35.44735825518778",
-          lngNew: "-80.60356218509159",
-          latOld: "35.44726947917957",
-          lngOld: "-80.60353833047527",
+          latNew: currentLocation.coords.latitude,
+          lngNew: currentLocation.coords.longitude,
+          latOld: oldLocation.coords.latitude,
+          lngOld: oldLocation.coords.longitude,
         }
       })
       .then(function (response) {
@@ -234,6 +251,7 @@ function ExploreScreen({ navigation }) {
         const stringReponse = JSON.stringify(response.data);
         console.log(stringReponse);
         playAudio(stringReponse.replace(/"/g, ''));
+        setLocationOld(location);
       })
       .catch(function (error) {
         // handle error
