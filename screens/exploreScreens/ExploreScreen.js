@@ -173,11 +173,12 @@ function ExploreScreen({ navigation }) {
           formData.append('', fs.createReadStream(images[i].uri));
         }
         */
+       /*
 
         let image = await camera.current.takePictureAsync();
 
         var form = new FormData();
-        form.append("", image.files[0], image.uri);
+        form.append("", "image", image.uri);
 
         var settings = {
           "url": `https://eyesight-function.azurewebsites.net/api/eyesight-explore?code=${EYESIGHT_LOCATION_FUNCTION_KEY}`,
@@ -189,35 +190,37 @@ function ExploreScreen({ navigation }) {
           "data": form
         };
 
-        $.ajax(settings).done(function (response) {
+        ajax(settings).done(function (response) {
           console.log(response);
           const stringReponse = JSON.stringify(response.data);
           console.log(stringReponse);
           playAudio(stringReponse.replace(/"/g, ''));
         });
+        */
 
-        /*
-          formData.append('', fs.createReadStream(image.uri));
-          console.log(image);
-          console.log(image.uri);
+    
+        let image = await camera.current.takePictureAsync({base64: true});
 
-          axios.post('https://eyesight-function.azurewebsites.net/api/eyesight-explore', {
-            params: {
-              'code': // removed
-            },
-            headers: { ...formData.getHeaders() },
-            data: formData,
-          }).then(function (response) {
-              const stringReponse = JSON.stringify(response.data);
-              console.log(stringReponse);
-              playAudio(stringReponse.replace(/"/g, ''));
-            })
-            .catch(function (error) {
-              // handle error
-              console.log(error);
-              if (error.response) console.log(error.response.data);
-              else console.log(error.message);
-            });
+        formData.append('', image);
+        // console.log(image);
+        console.log(image.uri);
+
+        axios.post('https://eyesight-function.azurewebsites.net/api/eyesight-explore', {
+          params: {
+            code: EYESIGHT_EXPLORE_FUNCTION_KEY
+          },
+          data: formData,
+        }).then(function (response) {
+            const stringReponse = JSON.stringify(response.data);
+            console.log(stringReponse);
+            playAudio(stringReponse.replace(/"/g, ''));
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+            if (error.response) console.log(error.response.data);
+            else console.log(error.message);
+          });
 
 
 
@@ -232,7 +235,7 @@ function ExploreScreen({ navigation }) {
  
           axios.post('https://eyesight-function.azurewebsites.net/api/eyesight-explore', {
             params: {
-              'code': // removed
+              'code': EYESIGHT_EXPLORE_FUNCTION_KEY
             },
             headers: { ...data.getHeaders() },
             data: imageUri,
