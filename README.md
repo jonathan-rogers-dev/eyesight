@@ -3,3 +3,6 @@ Introducing Eyesight, the beginning of the next generation of visual accessibili
 
 # How we built it
 Eyesight is powered by one of the world’s most powerful computer vision algorithms through Microsoft Azure and built on a cross-platform application development framework with React Native, providing the user with accurate yet quick descriptions.
+
+# What we learned
+Throughout the 4 weeks of extensive app development, we learned to harness the power of Microsoft Azure serverless technology and integrate it with React Native, a framework for developing cross-platform mobile applications.
